@@ -9,14 +9,21 @@ import(
   "github.com/abriel/transmission-rutracker-seed-go/lib/config"
   "github.com/abriel/transmission-rutracker-seed-go/lib/rutracker"
   "github.com/abriel/transmission-rutracker-seed-go/lib/torrent"
+  "github.com/abriel/transmission-rutracker-seed-go/lib/version"
 )
 
 func main() {
   parser := argparse.NewParser(os.Args[0], "Checks updates on rutracker.org for torrents in your BT client")
   run_configuration := parser.Flag("c", "configure", &argparse.Options{Required: false, Help: "Run configuration menu"})
+  print_version := parser.Flag("v", "version", &argparse.Options{Required: false, Help: "Print the version and exit"})
   err := parser.Parse(os.Args)
   if err != nil {
     fmt.Print(parser.Usage(err))
+  }
+
+  if *print_version {
+    fmt.Println("Version:", version.Version)
+    return
   }
 
   if *run_configuration {
